@@ -3,13 +3,14 @@ Okkar Kaung Myat
 6632104
 542
 """
+# for extremely unbalanced partitons due to massive duplicates, three way partitions with iterative approach to avoid recursion depth issues
 import random
 def partition(arr, low, high):
     
     pivot = arr[random.randint(low, high)]
-    lt = low
-    gt = high
-    i = low
+    lt = low # end of less than
+    gt = high # start of greater than
+    i = low # current index
 
     while i <= gt:
         if arr[i] < pivot:
@@ -26,7 +27,7 @@ def partition(arr, low, high):
 # the QuickSort function implementation
 # Quickselect Ascending
 def quickSelect(arr, low, high, target):
-    
+
     while low <= high:
         lt, gt = partition(arr, low, high)
 
