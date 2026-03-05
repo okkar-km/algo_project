@@ -3,6 +3,7 @@ Okkar Kaung Myat
 6632104
 542
 """
+from typing import List
 class MinHeap:
     def __init__(self):
         self.heap = []
@@ -10,24 +11,20 @@ class MinHeap:
     def __len__(self):
         return len(self.heap)
     
-    def insert(self, value):
+    def push(self, value):
         self.heap.append(value)
+        self.heapify_up(len(self.heap) - 1)
 
-        index = len(self.heap) - 1
+    def heapify_up(self, index):
         while index > 0:
             # find parent's index with heap formula
             parent = (index - 1) // 2
-            
+
             # stop if heap property satisfied 
             if self.heap[parent] <= self.heap[index]:
                 break
 
-            # python support tuple unpacking(parallel assignment)
-            # self.heap[parent], self.heap[index] = self.heap[index], self.heap[parent]
-            # index = parent
-            temp = self.heap[parent]
-            self.heap[parent] = self.heap[index]
-            self.heap[index] = temp
+            self.heap[parent], self.heap[index] = self.heap[index], self.heap[parent]
             index = parent
 
     def pop(self):
@@ -38,19 +35,15 @@ class MinHeap:
 
         if self.heap:
             self.heap[0] = last # move last element to root
-            self.sift_down(0) # restore heap property
+            self.heapify_down(0) # restore heap property
             
         return root
 
-    def peek(self):
-        return self.heap[0] # return minimum value
-
-    # helper
-    def sift_down(self, index):
+    def heapify_down(self, index):
         size = len(self.heap)
 
         while True:
-            # complete binary tree: children positions can be computed using simple heap formulas.
+            # complete binary tree: children positions are computed using simple heap formulas.
             left = (2 * index) + 1
             right = (2 * index) + 2
             smallest = index
@@ -64,21 +57,20 @@ class MinHeap:
             if smallest == index:
                 break
 
-            # self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
-            # index = smallest
-            temp = self.heap[index]
-            self.heap[index] = self.heap[smallest]
-            self.heap[smallest] = temp
+            self.heap[index], self.heap[smallest] = self.heap[smallest], self.heap[index]
             index = smallest
 
-def findKthLargest(nums, k):
-    heap = MinHeap()
-    for x in nums:
-        heap.insert(x)
-        # if len(heap.heap) > k:
-        if len(heap) > k:
-            heap.pop()
-    return heap.peek()
+    def peek(self):
+        return self.heap[0] # return minimum value
 
-# print(findKthLargest([3, 2, 1, 5, 6, 4], 2))
-print(findKthLargest([3,2,3,1,2,4,5,5,6], 4))
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        heap = MinHeap()
+        for x in nums:
+            heap.push(x)
+            if len(heap) > k:
+                heap.pop()
+        return heap.peek()
+
+sol = Solution()
+print(sol.findKthLargest([3,2,3,1,2,4,5,5,6], 4))
