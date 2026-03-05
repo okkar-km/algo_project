@@ -5,6 +5,7 @@ Okkar Kaung Myat
 """
 # for extremely unbalanced partitons due to massive duplicates, three way partitions with iterative approach to avoid recursion depth issues
 import random
+from typing import List
 def partition(arr, low, high):
     
     pivot = arr[random.randint(low, high)]
@@ -38,9 +39,12 @@ def quickSelect(arr, low, high, target):
         else:
             return arr[target]
 
-def findKthLargest(nums, k):
-    n = len(nums)
-    target = n - k 
-    return quickSelect(nums, 0, n-1, target)
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        target = n - k 
+        return quickSelect(nums, 0, n-1, target)
     
-print(findKthLargest([3,2,3,1,2,4,5,5,6], 4))
+
+sol = Solution()
+print(sol.findKthLargest([3,2,3,1,2,4,5,5,6], 4))
