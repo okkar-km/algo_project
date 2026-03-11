@@ -47,18 +47,6 @@ def quickSelect(arr, low, high, k):
             return quickSelect(arr, low, pi - 1, k)
         else:
             return quickSelect(arr, pi + 1, high, k)
-
-    # if low == high:
-    #     return arr[low]
-    
-    # pi = partition(arr, low, high)
-
-    # if pi == target:
-    #     return arr[pi]
-    # elif pi > target:
-    #     return quickSelect(arr, low, pi-1, target)
-    # else:
-    #     return quickSelect(arr, pi+1, high, target)
     
 def findKthLargest(nums, k):
     return quickSelect(nums, 0, len(nums)-1, k)
